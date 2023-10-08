@@ -1,0 +1,16 @@
+<div class="card">
+    <div class="card-header">
+      <h3>Creación de una sala</h3>
+    </div>
+    <div class="card-body">
+      <form action="/salas" method="POST">
+        <div class="mb-3">
+          <label for="nameSala" class="form-label">Nombre</label>
+          <input type="text" class="form-control" id="name" name="name" required>
+          <input type="hidden" value="<%=user.id %>" class="form-control" id="idUser" name="idUser" required>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Crear</button>
+      </form>
+    </div>
+  </div>

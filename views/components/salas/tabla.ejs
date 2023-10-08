@@ -1,0 +1,25 @@
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th colspan="2" scope="col">Nombre</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+        <% results.forEach((session)=> { %>
+            <tr>
+                <td><%= session.id %></td>
+                <td colspan="2" ><%= session.name %></td>
+                <td>
+                    <div class="form-group">
+                        <button class="btn btn-success">Iniciar</button>
+                        <button class="btn btn-info">+ Colaboradores</button>
+                        <button class="btn btn-danger">Eliminar</button>
+                  
+                    </div>
+                </td>
+            </tr>
+        <% }) %>
+    </tbody>
+  </table>
