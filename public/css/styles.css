@@ -12,3 +12,9 @@
 .btn-bd-primary:focus{
     box-shadow: 0 0 0 3px rgba(121,82,179,0.25);
 }
+
+.diagram{
+    width:auto; 
+    height:700px;
+     border:1px solid black;
+}

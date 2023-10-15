@@ -5,9 +5,13 @@
     <div class="card-body">
       <form action="/salas" method="POST">
         <div class="mb-3">
-          <label for="nameSala" class="form-label">Nombre</label>
+          <label for="nameSala" class="form-label">Nombre de sala</label>
           <input type="text" class="form-control" id="name" name="name" required>
-          <input type="hidden" value="<%=user.id %>" class="form-control" id="idUser" name="idUser" required>
+          <input type="hidden" value="<%=user.id %>" class="form-control" id="idUser" name="idUser">
+
+          <label for="nameProyect" class="form-label mt-4">Nombre del proyecto</label>          
+          <input type="text" class="form-control" id="nameProyect" name="nameProyect" required>
+
         </div>
         
         <button type="submit" class="btn btn-primary">Crear</button>

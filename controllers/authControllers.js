@@ -18,7 +18,7 @@ exports.register =async (req,res)=>{
             console.log(error)
             }
             console.log('estoy aca')
-        res.redirect('/');
+        res.redirect('login');
       })
  } catch (error) {
     console.log(error);    
@@ -57,15 +57,17 @@ exports.login = async(req, res)=>{
                 }else{
                     //inicio de sesion 
                      const id = results[0].id
-                    const token = jwt.sign({id:id}, process.env.JWT_SECRETO)
-                   //     expiresIn : process.env.JWT_TIEMPO_EXPIRA
-                    // })
-                    // console.log("Token: "+ token+ "para el usuaaio" );
-                    const cookieOptions = {
+                     const token = jwt.sign({id:id}, process.env.JWT_SECRETO)
+                      const cookieOptions = {
                         expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES * 24*60*60 *1000),
                         httpOnly:true   
                     }
-                     res.cookie('jwt', token, cookieOptions)
+                    req.session.user=email
+                    req.session.id=token
+                    req.session.loggedIn =true
+                    req.session.save();
+                    res.cookie('jwt', token, cookieOptions)
+
                     res.render('login', {
                         alert:true,
                         alertTitle:"Conexion exitosa",
@@ -73,7 +75,7 @@ exports.login = async(req, res)=>{
                         alertIcon:'success',
                         showConfirmButton: false,
                         timer:800,
-                        ruta:''
+                        ruta:'dashboard'
                     })
                 }
             })
@@ -85,10 +87,12 @@ exports.login = async(req, res)=>{
 
 exports.isAuthenticated = async(req, res, next)=> {
     var idUser=0
+    console.log(req.cookies.jwt);
     if(req.cookies.jwt){
         try {
             const decodificada = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO)
             idUser= decodificada.id //variable con el id del usuario
+            console.log(decodificada);
             conexion.query('SELECT * FROM users WHERE id = ?',[idUser], (error,results)=>{
             
                 if (error) {
@@ -100,8 +104,8 @@ exports.isAuthenticated = async(req, res, next)=> {
                     return next()}
 //                    req.name = results[0].name
                     req.user = results[0]
-
-                    console.log(req.name);
+                  //  console.log("antes de rq.user");
+                    //console.log(req.user);
               //  console.log('estoy despues de req. email');
                return next()
             })
@@ -113,12 +117,12 @@ exports.isAuthenticated = async(req, res, next)=> {
         res.redirect('/login')
      
     }
+
 }
 
 exports.logout = (req, res)=>{
     res.clearCookie('jwt')
-    return res.redirect('/')
+    return res.redirect('/login')
 }
-
 
   

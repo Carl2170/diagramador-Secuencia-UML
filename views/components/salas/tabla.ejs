@@ -1,25 +1,74 @@
-<table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th colspan="2" scope="col">Nombre</th>
-        <th scope="col">Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-        <% results.forEach((session)=> { %>
-            <tr>
-                <td><%= session.id %></td>
-                <td colspan="2" ><%= session.name %></td>
-                <td>
-                    <div class="form-group">
-                        <button class="btn btn-success">Iniciar</button>
-                        <button class="btn btn-info">+ Colaboradores</button>
-                        <button class="btn btn-danger">Eliminar</button>
-                  
+<div class="card mt-5">
+  <div class="card-header">
+    <h2>Lista de salas</h2>
+  </div>
+  <div class="card-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th colspan="2" scope="col">Nombre</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+          <% results.forEach((session)=> { %>
+              <tr>
+                  <td><%= session.id %></td>
+                  <td colspan="2" ><%= session.name %></td>
+
+                  <td>
+                    <div class="row">
+                      <div class="col-2"style="width:75px;">
+                        <form action="/diagrama" method="POST" >
+                          <input type="hidden" value="<%= session.id %>" name="idSala" id="idSala">
+                          <button type="submit" class="btn btn-success">Iniciar</button>
+                        </form>
+                      </div>
+                      <div class="col-8 ">
+                        <div class="form-group">
+                          <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">+ Colaboradores</button>
+                          <button class="btn btn-danger">Eliminar</button>                        
+                      </div>  
+                      </div>
                     </div>
-                </td>
-            </tr>
-        <% }) %>
-    </tbody>
-  </table>
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Añadir colaborador</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <div class="card">
+                                      <div class="card-header">
+                                        Ingrese su email
+                                      </div>
+                                      <form action="/invitar" method="post">
+                                        <div class="card-body">
+                                          <div class="form-group">
+                                            <input class="form-control" type="text" name="emailUser" id="emailUser" autofocus>
+                                            <input type="hidden" name="idSala" id="idSala" value="<%= session.id %>">                                       
+                                            <input type="hidden" name="nameSala" id="nameSala" value="<%= session.name %>">
+                                            <input type="hidden" name="nameUser" id="nameUser" value="<%= user.name %>">
+
+                                          </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                          <button type="submit"  class="btn btn-primary">Enviar invitación</button>
+                                        </div>
+                                  </form>
+                                </div>
+                              </div>
+                                </div>
+                              </div>
+                            </div>
+                      
+                  </td>
+              </tr>
+          <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>

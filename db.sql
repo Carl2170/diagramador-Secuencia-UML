@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS permission (
     name VARCHAR(30)
 )
 
-drop table session
+drop table project
 
 select * from session
 
@@ -41,8 +41,14 @@ CREATE TABLE IF NOT EXISTS session(
     FOREIGN KEY(user_id)REFERENCES users(id)
 );
 
+drop table notification
+
 CREATE TABLE IF NOT EXISTS project(
-    id int AUTO_INC name VARCHAR(30) NOT NULLREMENT PRIMARY KEY,
+    id int AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(30) NOT NULL,
+    sala_id int,
+    FOREIGN KEY(sala_id)REFERENCES session(id)
+    
    
 );
 
@@ -53,3 +59,21 @@ CREATE TABLE IF NOT EXISTS project_user (
     FOREIGN KEY(user_id)REFERENCES users(id),
     FOREIGN KEY(project_id)REFERENCES project(id)
 );
+
+CREATE TABLE IF NOT EXISTS notification (
+    id int AUTO_INCREMENT PRIMARY KEY,
+    message varchar(80),
+    status int,
+    answer int,
+    user_id int,
+    sala_id int,
+    FOREIGN KEY(user_id)REFERENCES users(id),
+    FOREIGN KEY(sala_id)REFERENCES session(id)
+);
+
+CREATE TABLE IF NOT EXISTS sessions(
+    session_id VARCHAR(128) COLLATE utf8mb4_bin not null,
+    expires int(11) UNSIGNED NOT NULL,
+    data MEDIUMTEXT COLLATE utf8mb4_bin,
+    PRIMARY key(session_id)
+)
